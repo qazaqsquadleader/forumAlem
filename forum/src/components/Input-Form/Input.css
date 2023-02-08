@@ -1,0 +1,11 @@
+.input-form{
+    width: 100vw;
+    min-height: 40vh;
+    display: flex;   
+}
+.input-form > textarea{
+    flex: 1 0 auto;
+}
+.input-form > button{
+    min-width: 150px;
+}
