@@ -2,18 +2,19 @@ package execute
 
 import (
 	"database/sql"
-	"fmt"
+	"forum-backend/internal/Log"
 	"forum-backend/internal/models"
 )
 
-func CreateCommentSql(newComment models.NewComment, id int, db *sql.DB) (string, bool) {
+func CreateCommentSql(newComment models.NewComment, id int, db *sql.DB) bool {
 	stmt, err := db.Prepare("INSERT INTO comments(postId, author,content) values(?,?,?)")
 	if err != nil {
-		return "SQL INJECTION", false
+		Log.LogError(err.Error())
+		return false
 	}
 	if _, err := stmt.Exec(id, newComment.Author, newComment.Body); err != nil {
-		fmt.Println(err.Error())
-		return "Error with creation of new comment", false
+		Log.LogError(err.Error())
+		return false
 	}
-	return "", true
+	return true
 }

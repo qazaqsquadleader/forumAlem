@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { Alert } from "@mui/material";
 import './Login.css'
-
 const Login = () => {
+    
     useEffect(()=> {   
             const inputText = document.querySelectorAll('.auth-form__input');
             
@@ -47,7 +47,7 @@ const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    
+    const [status, setStatus] = useState(null);
     // useEffect(() => {
     //     console.log(temp.value);
     // }, [temp.value])
@@ -57,7 +57,15 @@ const Login = () => {
     const handlePassword = (e) => {
         setPassword(e.target.value);
     }
-    
+    const handleStatus = () => {
+        if (status === "Server-error"){
+            return (  
+                <Alert severity="error">
+                    User doesn't exist
+                </Alert>)
+        }
+    }
+
     const sendForm = (e) => {
         e.preventDefault();
         // setUsername(e.target.username.value);
@@ -66,7 +74,7 @@ const Login = () => {
         // console.log(password);
 // Check for Mail and password validity
         (async() => {
-            await fetch(`http://localhost:8080/api/checkPassword`, 
+            await fetch(`http://localhost:8080/api/signin`, 
             {
                 headers: {
                     'Accept': 'text/plain',
@@ -79,33 +87,25 @@ const Login = () => {
                     Username: username,
                     password: password
                 }),
-            }).then((r) => {
-                console.log(r.headers.get("set-cookie"));
-                const cookies = r.headers.get('set-cookie');
-                if (cookies) {
-                  const cookieArray = cookies.split(';');
-                  for (const cookie of cookieArray) {
-                    const cookieNameValue = cookie.split('=');
-                    const cookieName = cookieNameValue[0].trim();
-                    if (cookieName === 'token') {
-                      const tokenValue = cookieNameValue[1].trim();
-                      // store the token value in document.cookie
-                      console.log(tokenValue);
-                      document.cookie = `token=${tokenValue};SameSite=None;Secure;path=/;`;
-                      break;
-                    }
-                  }
+            }).then((r) =>{
+                if (!r.ok){
+                    navigate("/")
                 }
-                
-                if (r.ok){
-                    navigate("/home", {
-                        state: {
-                            username
-                        }
-                    });
-                }
+                return (r.json())
             })
-            //throw new Error('Server response was not ok')
+            .then((data) => {
+                const responseJSON = data;
+                const {Username} = responseJSON;
+                sessionStorage.setItem("Username", Username);
+                navigate("/", 
+                // {
+                //     state: {
+                //         username: username
+                //     }
+                // }
+                );
+            
+            })
         })();
     }
     
@@ -129,7 +129,7 @@ const Login = () => {
                     </div>
                 </label>
     
-                <div className="auth-form__answer"></div>
+                <div className="auth-form__answer">{handleStatus()}</div>
     
                 <input className="auth-form__submit" type="submit" value="Login"/>
                 

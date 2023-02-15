@@ -1,11 +1,44 @@
-.input-form{
-    width: 100vw;
-    min-height: 40vh;
-    display: flex;   
+.input-form {
+    margin: 20px;
+    height: 50vh;
+    
+    display: flex;
+    flex-direction: column;
 }
-.input-form > textarea{
-    flex: 1 0 auto;
-}
-.input-form > button{
-    min-width: 150px;
-}
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2em;
+  }
+  
+  .text-field-group {
+    display: flex;
+  }
+  .input-group > h1 {
+    margin: 0 1em;
+    color: aqua;
+  }
+  
+  .textarea-group {
+    display: flex;
+    height: 100%;
+  }
+  
+  .textarea-group > textarea {
+    flex: 1;
+    width: 80%;
+    height: 100%;
+    margin-right: 1em;
+  }
+  
+  .textarea-group > button{
+    width: 20%;
+    height: 100%;
+  }
+
+  .mu-textfield{
+    background-color: aliceblue;
+    
+  }

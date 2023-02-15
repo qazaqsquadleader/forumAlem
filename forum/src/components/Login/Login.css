@@ -144,10 +144,8 @@
     height: 12px;
     padding-top: 4px;
     padding-bottom: 4px;
-    font-size: 14px;
-    text-align: center;
-    margin-top: -10px;
-    margin-bottom: 30px;
+    margin-top: -20px;
+    margin-bottom: 40px;
   }
   .auth-form__submit {
     font-family: inherit;

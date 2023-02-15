@@ -2,9 +2,9 @@ package database
 
 import (
 	"database/sql"
-	"fmt"
 	"io/ioutil"
-	"log"
+
+	"forum-backend/internal/Log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -25,23 +25,28 @@ func NewConfDB() *ConfigDB {
 func InitDB(c *ConfigDB) (*sql.DB, error) {
 	db, err := sql.Open(c.Driver, c.Name)
 	if err != nil {
-		log.Println(err)
+
+		Log.LogError(err.Error())
 		return nil, err
 	}
 	if err := db.Ping(); err != nil {
+
+		Log.LogError(err.Error())
 		return nil, err
 	}
-
 	return db, nil
 }
 
 func CreateTables(db *sql.DB) error {
 	file, err := ioutil.ReadFile("./migrations/db.sql")
 	if err != nil {
+
+		Log.LogError(err.Error())
 		return err
 	}
 	if _, err := db.Exec(string(file)); err != nil {
-		fmt.Println(err.Error())
+
+		Log.LogError(err.Error())
 		return err
 	}
 	return nil

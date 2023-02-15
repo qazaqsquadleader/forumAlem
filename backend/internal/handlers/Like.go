@@ -1,8 +1,8 @@
-package handler
+package handlers
 
 import (
 	"encoding/json"
-	"fmt"
+	"forum-backend/internal/Log"
 	"forum-backend/internal/models"
 	"io"
 	"net/http"
@@ -14,14 +14,20 @@ func (s *apiServer) Like(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	body, err := io.ReadAll(r.Body)
-	if err != nil || len(body) == 0 {
+	if err != nil {
+		Log.LogError(err.Error())
+		w.WriteHeader(400)
+		return
+	}
+
+	if len(body) == 0 {
 		w.WriteHeader(400)
 		return
 	}
 	var newLike models.Like
 	err = json.Unmarshal(body, &newLike)
 	if err != nil {
-		fmt.Print(err.Error())
+		Log.LogError(err.Error())
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -33,5 +39,4 @@ func (s *apiServer) Like(w http.ResponseWriter, r *http.Request) {
 	// TODO INSTERT THIST TO DB usr
 	///////////////////////////
 	w.WriteHeader(http.StatusOK)
-	return
 }

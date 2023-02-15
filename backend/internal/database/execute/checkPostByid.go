@@ -2,6 +2,7 @@ package execute
 
 import (
 	"database/sql"
+	"forum-backend/internal/Log"
 )
 
 func CheckPostByid(db *sql.DB, id int) bool {
@@ -11,6 +12,7 @@ func CheckPostByid(db *sql.DB, id int) bool {
 	if err == sql.ErrNoRows {
 		return false
 	} else if err != nil {
+		Log.LogError(err.Error())
 		return false
 	}
 	return true

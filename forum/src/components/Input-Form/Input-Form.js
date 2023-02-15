@@ -1,42 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Input.css'
-// import { document } from 'global/document';
-// function getCookie(cname) {
-//     const name = cname + "=";
-//     const decodedCookie = decodeURIComponent(document.cookie);
-//     const ca = decodedCookie.split(';');
-//     for(let i = 0; i <ca.length; i++) {
-//       let c = ca[i];
-//       while (c.charAt(0) === ' ') {
-//         c = c.substring(1);
-//       }
-//       if (c.indexOf(name) === 0) {
-//         return c.substring(name.length, c.length);
-//       }
-//     }
-//     return "";
-//   }
-  
-async function handleSubmit(event, text) {
+import { TextField, MenuItem } from '@mui/material';
+async function handleSubmit(event, text,title, name) {
     event.preventDefault();
-    // const cookie = document.cookie.split(';').find(c => c.trim().startsWith('token='));
-
-    // if (!cookie) {
-    //   console.error('No token found in cookie');
-    //   return;
-    // }
-    // const token = cookie.split('=')[1];
-    const token = document.cookie
-    console.log(token);
     try {
       const response = await fetch('http://localhost:8080/api/createPost', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         //   'Accept': 'text/plain',
-          'Cookie': `${token}`,
         },
-        body: JSON.stringify({ text: text }),
+        body: JSON.stringify({ 
+          Content: text,
+          Title: title,
+          Author: name,
+        }),
       });
       const data = await response.json();
       console.log(data);
@@ -45,14 +24,64 @@ async function handleSubmit(event, text) {
     }
   };
 
-
-  function InputForm() {
+  const currencies = [
+    {
+      value: 'USD',
+      label: '$',
+    },
+    {
+      value: 'EUR',
+      label: 'SOME CATEGORIES FOR THE FUTURE',
+    },
+    {
+      value: 'BTC',
+      label: '฿',
+    },
+    {
+      value: 'JPY',
+      label: '¥',
+    },
+  ];
+const InputForm = (props) => {
     const [text, setText] = useState('');
-  
+    const [title, setTitle] = useState('')
+    // const [user, setUser] = useState();    
+    // console.log(props.username);
+
+// const [isAuth, setIsAuth] = useState();
+    // useEffect(() => {
+    //   if (props.isAuth){
+    //     setIsAuth(props.isAuth)
+    //       setUser(props.username)
+    //       console.log(user);
+    //     }   
+    // }, [props.isAuth, props.username]) 
+    
     return (
-      <form className='input-form' onSubmit={(e) => handleSubmit(e, text)}>
-        <textarea value={text} onChange={(e) => setText(e.target.value)} />
-        <button type="submit">Submit</button>
+      <form className='input-form' onSubmit={(e) => handleSubmit(e, text,title, props.username)}>
+        <div className='input-group'>
+          <h1>Create Post</h1>  
+        </div>
+        <div className='text-field-group'>
+          <TextField id="title-form" className='mu-textfield' label="Title" variant="outlined" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <TextField
+          id="outlined-select-currency"
+          select
+          label=""
+          defaultValue="EUR"
+          sx={{backgroundColor: 'aliceblue'}}
+        >
+          {currencies.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        </div> 
+        <div className='textarea-group'>
+          <textarea value={text} onChange={(e) => setText(e.target.value)} />
+          <button type="submit">Submit</button>
+        </div>
       </form>
     );
   }

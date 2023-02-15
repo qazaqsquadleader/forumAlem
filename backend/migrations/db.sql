@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS user(
 		-- expiresAt DATETIME
 );
 CREATE TABLE IF NOT EXISTS user_sessions(
-  token TEXT,
+  token TEXT PRIMARY KEY,
   expiresAt TEXT,
   userId INTEGER,
   FOREIGN KEY (userId) REFERENCES user(userId)
@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS posts(
 		title text,
 		content text,
 		creationDate TEXT
+		-- create foreign key by userID
 );
 CREATE TABLE IF NOT EXISTS posts_category(
     	postCategoryId INTEGER,

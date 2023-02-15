@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { Alert } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
@@ -37,9 +37,11 @@ const SignUp = () => {
         });
     },[]);
 
+    
     const [mail, setMail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [status, setStatus] = useState(null);
     const handleMail = (e) => {
         setMail(e.target.value);
     }
@@ -50,12 +52,27 @@ const SignUp = () => {
         setPassword(e.target.value);
     }
     
+    const handleStatus = () => {
+        if (status === "Sign-up success"){
+            return (
+                <Alert severity="success">
+                    Success!
+                </Alert>)
+        } else if (status === "Incorrect input. Try again"){
+            return (  
+                <Alert severity="error">
+                    Username taken. Try again
+                </Alert>)
+        }
+    }
+
+
     const sendForm = async (e) => {
         e.preventDefault();
         
 // Check for Mail and password validity
         // (async() => {
-            const r = await fetch(`http://localhost:8080/api/createUser`, 
+            await fetch(`http://localhost:8080/api/signup`, 
             {
                 headers: {
                     'Accept': 'text/plain',
@@ -67,8 +84,16 @@ const SignUp = () => {
                     Username: username,
                     password: password
                 })
+            }).then((r) => {
+                setStatus("Sign-up success")
+            
+                if (!r.ok){
+                    setStatus("Incorrect input. Try again")
+                }
+                
+                
             })
-            console.log(r)
+            
         // })();
     }
 
@@ -94,14 +119,17 @@ const SignUp = () => {
                         <input type="checkbox" className="auth-form__checkbox password-toggler"/>
                     </div>
                 </label>
+                
+                <div className="auth-form__answer">{handleStatus()}</div>
+              
 {/*     
-                <div className="auth-form__answer"></div>
+                <div className="auth-form__answer">{status}</div>
      */}
                 <input className="auth-form__submit" type="submit" value="Sign Up"/>
                 
                 <div className="auth-form__bottom">
                     <span>Already have an account? </span>
-                    <Link to = "/">
+                    <Link to = "/signin">
                     Sign in
                     </Link>
                 </div>

@@ -2,8 +2,7 @@ package execute
 
 import (
 	"database/sql"
-	"fmt"
-
+	"forum-backend/internal/Log"
 	"forum-backend/internal/models"
 )
 
@@ -12,7 +11,7 @@ func CheckPasswordSql(User models.CheckUser, db *sql.DB) (models.User, bool) {
 	query := `SELECT * FROM user WHERE username=$1 and password=$2`
 	row := db.QueryRow(query, User.Username, User.Password)
 	if err := row.Scan(&fullUser.UserId, &fullUser.Username, &fullUser.Password, &fullUser.Email); err != nil {
-		fmt.Print(err.Error())
+		Log.LogError(err.Error())
 		return fullUser, false
 	}
 	// userId := fullUser.Username

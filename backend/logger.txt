@@ -1,0 +1,16 @@
+2023/02/15 17:40:53 [INFO] (file: /home/student/forum/backend/internal/app/app.go, line: 26): Successfully Initiated the Data Base
+2023/02/15 17:40:53 [INFO] (file: /home/student/forum/backend/internal/app/app.go, line: 31): Tables have been created
+2023/02/15 17:40:53 [INFO] (file: /home/student/forum/backend/internal/app/app.go, line: 35): NewApiServer has been created
+2023/02/15 17:40:53 [INFO] (file: /home/student/forum/backend/internal/handlers/Server.go, line: 38): Starting the server at port localhost:8080
+2023/02/15 17:56:43 [INFO] (file: /home/student/forum/backend/internal/app/app.go, line: 26): Successfully Initiated the Data Base
+2023/02/15 17:56:43 [INFO] (file: /home/student/forum/backend/internal/app/app.go, line: 31): Tables have been created
+2023/02/15 17:56:43 [INFO] (file: /home/student/forum/backend/internal/app/app.go, line: 35): NewApiServer has been created
+2023/02/15 17:56:43 [INFO] (file: /home/student/forum/backend/internal/handlers/Server.go, line: 38): Starting the server at port localhost:8080
+2023/02/15 17:56:50 [ERROR] (file: /home/student/forum/backend/internal/handlers/CheckToken.go, line: 20): http: named cookie not present
+2023/02/15 17:56:59 [INFO] (file: /home/student/forum/backend/internal/handlers/SignUp.go, line: 38): Successfully created a user
+2023/02/15 17:57:12 [INFO] (file: /home/student/forum/backend/internal/handlers/SignIn.go, line: 90): Token created: db260ab8-44f8-4b64-9e9a-e7d28289e86b
+2023/02/15 17:57:12 [INFO] (file: /home/student/forum/backend/internal/handlers/SignIn.go, line: 71): User with token: db260ab8-44f8-4b64-9e9a-e7d28289e86b, just logged in...
+2023/02/15 17:57:12 http: superfluous response.WriteHeader call from forum-backend/internal/handlers.(*apiServer).SignInHandler (SignIn.go:78)
+2023/02/15 17:57:43 [INFO] (file: /home/student/forum/backend/internal/handlers/SignIn.go, line: 90): Token created: fba11d1c-0b26-42af-a6c7-3167d4c02a94
+2023/02/15 17:57:43 [INFO] (file: /home/student/forum/backend/internal/handlers/SignIn.go, line: 71): User with token: fba11d1c-0b26-42af-a6c7-3167d4c02a94, just logged in...
+2023/02/15 17:57:43 http: superfluous response.WriteHeader call from forum-backend/internal/handlers.(*apiServer).SignInHandler (SignIn.go:78)
